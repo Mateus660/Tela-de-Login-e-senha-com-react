@@ -2,31 +2,58 @@ import React, { useState } from "react";
 
 function Tela() {
   const [nome, setNome] = useState(""); // Estado para armazenar o nome
-  const [erro, setErro] = useState(""); // Estado para armazenar a mensagem de erro
+  const [usuario, setUsuario] = useState(""); // Estado para armazenar o usuário
+  const [senha, setSenha] = useState(""); // Estado para armazenar a senha
+  const [confirmaSenha, setConfirmaSenha] = useState(""); // Estado para armazenar a confirmação de senha
 
-  const [usuario, setusuario] = useState("");
+  const [erroNome, setErroNome] = useState(""); // Mensagem de erro para o nome
+  const [erroUsuario, setErroUsuario] = useState(""); // Mensagem de erro para o usuário
+  const [erroSenha, setErroSenha] = useState(""); // Mensagem de erro para a senha
+  const [erroConfirmaSenha, setErroConfirmaSenha] = useState(""); // Mensagem de erro para a confirmação de senha
 
   const validarNome = (e) => {
     const valorNome = e.target.value;
-    setNome(valorNome); // Atualiza o estado 'nome' com o valor digitado
+    setNome(valorNome);
 
     if (valorNome.length < 3) {
-      setErro("Nome inválido"); // Define a mensagem de erro
+      setErroNome("Nome deve ter no mínimo 3 caracteres.");
     } else {
-      setErro(""); // Remove a mensagem de erro
+      setErroNome("");
     }
   };
 
-  const validarusuario = (e) => {
-   const valorNome = e.target.value;
-   setNome(valorNome); // Atualiza o estado 'nome' com o valor digitado
+  const validarUsuario = (e) => {
+    const valorUsuario = e.target.value;
+    setUsuario(valorUsuario);
 
-   if (valorNome.length < 3) {
-     setErro("Nome inválido"); // Define a mensagem de erro
-   } else {
-     setErro(""); // Remove a mensagem de erro
-   }
- };
+    if (valorUsuario.length < 3) {
+      setErroUsuario("Usuário deve ter no mínimo 3 caracteres.");
+    } else {
+      setErroUsuario("");
+    }
+  };
+
+  const validarSenha = (e) => {
+    const valorSenha = e.target.value;
+    setSenha(valorSenha);
+
+    if (valorSenha.length < 6) {
+      setErroSenha("Senha deve ter no mínimo 6 caracteres.");
+    } else {
+      setErroSenha("");
+    }
+  };
+
+  const validarConfirmaSenha = (e) => {
+    const valorConfirmaSenha = e.target.value;
+    setConfirmaSenha(valorConfirmaSenha);
+
+    if (valorConfirmaSenha !== senha) {
+      setErroConfirmaSenha("As senhas não coincidem.");
+    } else {
+      setErroConfirmaSenha("");
+    }
+  };
 
   return (
     <div id="container">
@@ -38,36 +65,69 @@ function Tela() {
         <label
           id="labelnome"
           style={{
-            color: erro ? "red" : "white", // Define a cor da label dinamicamente
+            color: erroNome ? "red" : "white", // Define a cor dinamicamente
           }}
         >
-          <p>{erro || "Insira seu nome"}</p>
+          <p>{erroNome || "Insira seu nome"}</p>
           <input
             type="text"
             name="nome"
             id="nome"
             value={nome}
-            onChange={validarNome} // Chama a validação a cada tecla pressionada
+            onChange={validarNome}
           />
         </label>
 
-        <label htmlFor="get" id="labelusuario"  onChange={validarusuario}>
-          <p>Insira seu nome de usuário</p>
-          <input type="text" name="usuario" id="usuario" />
+        <label
+          id="labelusuario"
+          style={{
+            color: erroUsuario ? "red" : "white", // Define a cor dinamicamente
+          }}
+        >
+          <p>{erroUsuario || "Insira seu usuário"}</p>
+          <input
+            type="text"
+            name="usuario"
+            id="usuario"
+            value={usuario}
+            onChange={validarUsuario}
+          />
         </label>
 
-        <label htmlFor="get" id="labelsenha">
-          <p>Insira sua senha</p>
-          <input type="password" name="senha" id="senha" />
+        <label
+          id="labelsenha"
+          style={{
+            color: erroSenha ? "red" : "white", // Define a cor dinamicamente
+          }}
+        >
+          <p>{erroSenha || "Insira sua senha"}</p>
+          <input
+            type="password"
+            name="senha"
+            id="senha"
+            value={senha}
+            onChange={validarSenha}
+          />
         </label>
 
-        <label htmlFor="get" id="labelconfirmsenha">
-          <p>Confirme a senha</p>
-          <input type="password" name="confirmasenha" id="confirmsenha" />
+        <label
+          id="labelconfirmsenha"
+          style={{
+            color: erroConfirmaSenha ? "red" : "white", // Define a cor dinamicamente
+          }}
+        >
+          <p>{erroConfirmaSenha || "Confirme sua senha"}</p>
+          <input
+            type="password"
+            name="confirmasenha"
+            id="confirmsenha"
+            value={confirmaSenha}
+            onChange={validarConfirmaSenha}
+          />
         </label>
 
         <input type="reset" value="Limpar" id="limpar" />
-        <button id="confirmar">
+        <button id="confirmar" disabled={erroNome || erroUsuario || erroSenha || erroConfirmaSenha}>
           Cadastrar
         </button>
         <p id="link">
